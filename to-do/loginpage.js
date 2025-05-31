@@ -16,11 +16,13 @@ async function loginAndCheck(emailText, passwordText, expectedMessage, testCaseN
   await driver.navigate().refresh();
   const email = await driver.wait(until.elementLocated(By.xpath('//input[@placeholder="Enter your email..."]')));
   await clearField(email);
-  await email.sendKeys(emailText, Key.ENTER);
+  await email.sendKeys(emailText, Key.RETURN);
 
   const password = await driver.wait(until.elementLocated(By.xpath('//input[@placeholder="Enter your password..."]')));
   await clearField(password);
-  await password.sendKeys(passwordText, Key.ENTER);
+  await password.sendKeys(passwordText);
+
+  await driver.sleep(2000);
 
   const loginBtn = await driver.wait(until.elementLocated(By.xpath('//button[@type="submit"]')));
   await loginBtn.click();
@@ -56,15 +58,7 @@ await loginAndCheck(
   "Test Case 2 - Valid Email & Invalid Password"
 );
 
-// Test Case 3 - Valid Credentials
-await loginAndCheck(
-  "srihari.bonthu001@gmail.com",
-  "Srihari1@",
-  "dashboard",
-  "Test Case 3 - Valid Login"
-);
-
-// Test Case 4 - Empty Email
+// Test Case 3 - Empty Email
 await loginAndCheck(
   "",
   "Srihari1@",
@@ -72,7 +66,7 @@ await loginAndCheck(
   "Test Case 4 - Empty Email"
 );
 
-// Test Case 5 - Empty Password
+// Test Case 4 - Empty Password
 await loginAndCheck(
   "srihari.bonthu001@gmail.com",
   "",
@@ -80,7 +74,7 @@ await loginAndCheck(
   "Test Case 5 - Empty Password"
 );
 
-// Test Case 6 - Invalid Email Format
+// Test Case 5 - Invalid Email Format
 await loginAndCheck(
   "invalid-email-format",
   "Srihari1@",
@@ -88,12 +82,19 @@ await loginAndCheck(
   "Test Case 6 - Invalid Email Format"
 );
 
-// Test Case 7 - Special Characters in Password
+// Test Case 6 - Special Characters in Password
 await loginAndCheck(
   "srihari.bonthu001@gmail.com",
   "!@#$%^&*()",
   "Wrong email or password.",
   "Test Case 7 - Special Character Password"
+);
+// Test Case 7 - Valid Credentials
+await loginAndCheck(
+  "srihari.bonthu001@gmail.com",
+  "Srihari1@",
+  "dashboard",
+  "Test Case 3 - Valid Login"
 );
 
 await driver.quit();
